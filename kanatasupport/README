@@ -1,0 +1,7 @@
+# Dependencies
+
+```text
+"github.com/jackc/pgx/stdlib"
+"github.com/BurntSushi/toml"
+"github.com/satori/go.uuid"
+```
