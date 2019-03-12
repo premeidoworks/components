@@ -1,0 +1,48 @@
+syntax = "proto2";
+
+package kanatasupport;
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+option (gogoproto.gostring_all) = true;
+option (gogoproto.goproto_stringer_all) = false;
+option (gogoproto.stringer_all) = true;
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.sizer_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+
+// For tests
+option (gogoproto.testgen_all) = true;
+option (gogoproto.equal_all) = true;
+option (gogoproto.populate_all) = true;
+
+message Message {
+    required bytes msgBody = 1 [(gogoproto.nullable) = false];
+    optional string msgOutId = 2 [(gogoproto.nullable) = true];
+    optional string msgId = 3 [(gogoproto.nullable) = true];
+}
+
+message MessageId {
+    optional string msgId = 1 [(gogoproto.nullable) = true];
+    optional string msgOutId = 2 [(gogoproto.nullable) = true];
+}
+
+message SuccessMessageId {
+    optional string msgId = 1 [(gogoproto.nullable) = true];
+    optional string msgOutId = 2 [(gogoproto.nullable) = true];
+}
+
+message FailMessageId {
+    optional string msgId = 1 [(gogoproto.nullable) = true];
+    optional string msgOutId = 2 [(gogoproto.nullable) = true];
+    optional string code = 3 [(gogoproto.nullable) = true];
+}
+
+message PublishRequest {
+    repeated Message messageList = 1;
+}
+
+message PublishResponse {
+    repeated SuccessMessageId successIdList = 1;
+    repeated FailMessageId failIdList = 2;
+}

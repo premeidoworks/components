@@ -14,3 +14,5 @@
 # .idea
 /*.iml
 /.idea
+# for develop environment use
+/make_*.sh

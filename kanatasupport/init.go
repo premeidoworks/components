@@ -6,4 +6,5 @@ func init() {
 	api.RegisterStoreProvider("pgx", defaultPgStore)
 	api.RegisterKanataConfigParse("default", TomlConfigParser{})
 	api.RegisterUUIDProvider("gouuid", uuidGenerator{})
+	api.RegisterMarshallingProvider("default", gogoprotobufMarshalImpl{})
 }
