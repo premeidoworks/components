@@ -59,9 +59,9 @@ func (this *PostgresStore) SaveMessage(msg *api.Message) error {
 	}
 
 	_, err := this.db.Exec(
-		"INSERT INTO public.messages(message_id, queue, topic, body, schedule_time, status, out_id, create_time)"+
-			" VALUES ($1, $2, $3, $4, $5, $6, $7, now())",
-		msg.MessageId, msg.Queue, msg.Topic, msg.Body, scheduleTime, msg.Status, outId,
+		"INSERT INTO public.messages(message_id, queue, topic, body, schedule_time, status, out_id, create_time, type)"+
+			" VALUES ($1, $2, $3, $4, $5, $6, $7, now(), $8)",
+		msg.MessageId, msg.Queue, msg.Topic, msg.Body, scheduleTime, msg.Status, outId, msg.Type,
 	)
 	if err != nil {
 		return err
