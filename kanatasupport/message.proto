@@ -39,7 +39,8 @@ message FailMessageId {
 }
 
 message PublishRequest {
-    repeated Message messageList = 1;
+    required string topic = 1 [(gogoproto.nullable) = false];
+    repeated Message messageList = 2;
 }
 
 message PublishResponse {

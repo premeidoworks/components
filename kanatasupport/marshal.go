@@ -11,6 +11,7 @@ type gogoprotobufMarshalImpl struct {
 
 func (gogoprotobufMarshalImpl) MarshalPublishRequest(p *api.PublishRequest) ([]byte, error) {
 	pr := &PublishRequest{
+		Topic:       p.Topic,
 		MessageList: make([]*Message, len(p.MessageList)),
 	}
 	for i := 0; i < len(pr.MessageList); i++ {
@@ -30,6 +31,7 @@ func (gogoprotobufMarshalImpl) UnmarshalPublishRequest(data []byte) (*api.Publis
 		return nil, err
 	}
 	result := &api.PublishRequest{
+		Topic: pr.Topic,
 		MessageList: make([]*struct {
 			MsgId    string
 			MsgOutId string
