@@ -9,6 +9,58 @@ import (
 type gogoprotobufMarshalImpl struct {
 }
 
+func (gogoprotobufMarshalImpl) MarshalAcquireRequest(a *api.AcquireRequest) ([]byte, error) {
+	ar := &AcquireRequest{
+		Queue: a.Queue,
+	}
+	return proto.Marshal(ar)
+}
+
+func (gogoprotobufMarshalImpl) UnmarshalAcquireRequest(data []byte) (*api.AcquireRequest, error) {
+	ar := new(AcquireRequest)
+	err := proto.Unmarshal(data, ar)
+	if err != nil {
+		return nil, err
+	}
+	return &api.AcquireRequest{
+		Queue: ar.Queue,
+	}, nil
+}
+
+func (gogoprotobufMarshalImpl) MarshalAcquireResponse(a *api.AcquireResponse) ([]byte, error) {
+	ar := &AcquireResponse{
+		MessageList: make([]*Message, len(a.MessageList)),
+	}
+	for i := 0; i < len(a.MessageList); i++ {
+		ar.MessageList[i] = &Message{
+			MsgBody: a.MessageList[i].MsgBody,
+			MsgId:   &a.MessageList[i].MsgId,
+		}
+	}
+	return proto.Marshal(ar)
+}
+
+func (gogoprotobufMarshalImpl) UnmarshalAcquireResponse(data []byte) (*api.AcquireResponse, error) {
+	ar := new(AcquireResponse)
+	err := proto.Unmarshal(data, ar)
+	if err != nil {
+		return nil, err
+	}
+	result := &api.AcquireResponse{
+		MessageList: make([]*struct {
+			MsgId   string
+			MsgBody []byte
+		}, len(ar.MessageList)),
+	}
+	for i := 0; i < len(ar.MessageList); i++ {
+		ar.MessageList[i] = &Message{
+			MsgBody: ar.MessageList[i].MsgBody,
+			MsgId:   ar.MessageList[i].MsgId,
+		}
+	}
+	return result, nil
+}
+
 func (gogoprotobufMarshalImpl) MarshalPublishRequest(p *api.PublishRequest) ([]byte, error) {
 	pr := &PublishRequest{
 		Topic:       p.Topic,

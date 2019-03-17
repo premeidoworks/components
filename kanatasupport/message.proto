@@ -47,3 +47,11 @@ message PublishResponse {
     repeated SuccessMessageId successIdList = 1;
     repeated FailMessageId failIdList = 2;
 }
+
+message AcquireRequest {
+    required string queue = 1 [(gogoproto.nullable) = false];
+}
+
+message AcquireResponse {
+    repeated Message messageList = 1;
+}

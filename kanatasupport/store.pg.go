@@ -68,3 +68,26 @@ func (this *PostgresStore) SaveMessage(msg *api.Message) error {
 	}
 	return nil
 }
+
+func (this *PostgresStore) ObtainOnceMessage(queue int64, maxCount int) ([]*api.Message, error) {
+	rows, err := this.db.Query("with t1 as (select id from public.messages where queue = $1 and type = 0 and status = 0 limit $2) delete from public.messages where id in (select * from t1) returning message_id, body",
+		queue, maxCount)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var result = make([]*api.Message, maxCount)
+	idx := 0
+	for rows.Next() {
+		msg := &api.Message{}
+		err = rows.Scan(&msg.MessageId, &msg.Body)
+		if err != nil {
+			return nil, err
+		}
+		result[idx] = msg
+		idx++
+	}
+
+	return result[:idx], nil
+}
