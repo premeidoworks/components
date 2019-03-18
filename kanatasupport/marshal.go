@@ -53,9 +53,12 @@ func (gogoprotobufMarshalImpl) UnmarshalAcquireResponse(data []byte) (*api.Acqui
 		}, len(ar.MessageList)),
 	}
 	for i := 0; i < len(ar.MessageList); i++ {
-		ar.MessageList[i] = &Message{
+		result.MessageList[i] = &struct {
+			MsgId   string
+			MsgBody []byte
+		}{
+			MsgId:   *ar.MessageList[i].MsgId,
 			MsgBody: ar.MessageList[i].MsgBody,
-			MsgId:   ar.MessageList[i].MsgId,
 		}
 	}
 	return result, nil
