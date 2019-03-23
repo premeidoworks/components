@@ -8,6 +8,7 @@ import (
 
 type T struct {
 	Global struct {
+		NodeId          uint32 `toml:"node_id"`
 		StoreProvider   string `toml:"store_provider"`
 		UUIDProvider    string `toml:"uuid_provider"`
 		MarshalProvider string `toml:"marshal_provider"`
@@ -27,6 +28,7 @@ func (TomlConfigParser) ParseConfigFile(path string) (*api.KanataConfig, error) 
 		return nil, err
 	}
 	result := &api.KanataConfig{
+		NodeId:          t.Global.NodeId,
 		StoreProvider:   t.Global.StoreProvider,
 		UUIDProvider:    t.Global.UUIDProvider,
 		MarshalProvider: t.Global.MarshalProvider,
