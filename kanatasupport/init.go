@@ -7,6 +7,7 @@ func init() {
 	api.RegisterStoreProvider("badger", defaultBadgerStore)
 	api.RegisterStoreProvider("bbolt", defaultBboltStore)
 	api.RegisterStoreProvider("simplememory", defaultSimpleMemory)
+	api.RegisterStoreProvider("leveldb", defaultLeveldb)
 
 	api.RegisterKanataConfigParse("default", TomlConfigParser{})
 	api.RegisterUUIDProvider("gouuid", uuidGenerator{})
